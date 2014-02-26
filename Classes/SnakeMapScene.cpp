@@ -74,14 +74,14 @@ bool SnakeMap::init()
     // add the label as a child to this layer
     this->addChild(pLabel, 1);
 
-    // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
+//     // add "HelloWorld" splash screen"
+//     CCSprite* pSprite = CCSprite::create("HelloWorld.png");
+// 
+//     // position the sprite on the center of the screen
+//     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+// 
+//     // add the sprite as a child to this layer
+//     this->addChild(pSprite, 0);
     
 	m_iPos = ccp(WIDTH_NUM/2,HEIGHT_NUM/2);
 	m_eDir = eDir_Right;
@@ -89,7 +89,7 @@ bool SnakeMap::init()
 	CCRect rect = CCRectMake(0,0,size.width/WIDTH_NUM,size.height/HEIGHT_NUM);
 	CCSprite* snake = CCSprite::create("blank.png");
 	snake->setTextureRect(rect);
-	snake->setColor(ccBLACK);
+	snake->setColor(ccWHITE);
 	snake->setAnchorPoint(ccp(0,0));
 	snake->setPosition(ccp(origin.x+m_iPos.x*rect.size.width,origin.y+m_iPos.y*rect.size.height));
 	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(SnakeMap::moveForward),this,1,false);
@@ -101,15 +101,15 @@ void SnakeMap::moveForward(float dt)
 {
 	if(m_eDir == eDir_Up)
 	{
-		if(m_iPos.y -1 < 0)
-			return;
-		m_iPos.y -= 1;
-	}
-	else if(m_eDir == eDir_Down)
-	{
 		if(m_iPos.y + 1 >= HEIGHT_NUM)
 			return;
 		m_iPos.y += 1;
+	}
+	else if(m_eDir == eDir_Down)
+	{
+		if(m_iPos.y - 1 < 0)
+			return;
+		m_iPos.y -= 1;
 	}
 	else if(m_eDir == eDir_Left)
 	{
@@ -132,7 +132,26 @@ void SnakeMap::moveForward(float dt)
 
 bool SnakeMap::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
-	CCPoint locationInNode = this->convertToNodeSpace(pTouch->getLocation());
+	CCPoint location = pTouch->getLocation();
+	CCSize size = this->getContentSize();
+	float y1 = -1*size.height/size.width*location.x+size.height;
+	float y2 = size.height/size.width*location.x;
+	if(location.y < y1 && location.y < y2)
+	{
+		m_eDir = eDir_Down;
+	}
+	else if (location.y > y1 && location.y > y2)
+	{
+		m_eDir = eDir_Up;
+	}
+	else if (location.y < y1 && location.y > y2)
+	{
+		m_eDir = eDir_Left;
+	}
+	else if (location.y > y1 && location.y < y2)
+	{
+		m_eDir = eDir_Right;
+	}
 	return true;
 }
 
