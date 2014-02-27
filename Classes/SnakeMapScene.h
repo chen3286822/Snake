@@ -4,6 +4,9 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
+#define WIDTH_NUM 30
+#define HEIGHT_NUM 20
+
 enum eDirection
 {
 	eDir_Up,
@@ -35,7 +38,13 @@ public:
     CREATE_FUNC(SnakeMap);
 private:
 	cocos2d::CCPoint m_iPos;
+	std::list<cocos2d::CCPoint> m_lBody;
+	std::list<cocos2d::CCSprite*> m_lTex;
+	cocos2d::CCPoint m_iFood;
+	bool m_bBlank[WIDTH_NUM][HEIGHT_NUM];
 	eDirection m_eDir;
+
+	void AddFood();
 };
 
 #endif // __HELLOWORLD_SCENE_H__
