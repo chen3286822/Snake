@@ -1,4 +1,5 @@
 #include "SnakeMapScene.h"
+#include "Snake.h"
 
 
 CCScene* SnakeMap::scene()
@@ -83,33 +84,14 @@ bool SnakeMap::init()
 //     this->addChild(pSprite, 0);
     
 	memset(m_bBlank,true,sizeof(bool)*WIDTH_NUM*HEIGHT_NUM);
-	m_lBody.clear();
-	m_lTex.clear();
-	CCPoint head = ccp(WIDTH_NUM/2,HEIGHT_NUM/2);
-	m_lBody.push_front(head);
-	m_bBlank[(int)head.x][(int)head.y] = false;
-	m_eDir = eDir_Right;
 
-	CCSize size = this->getContentSize();
-	CCRect rect = CCRectMake(0,0,size.width/WIDTH_NUM,size.height/HEIGHT_NUM);
 
-	CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addImage("blank.png");
-	CCSprite* snake = CCSprite::createWithTexture(tex);
-	snake->setTextureRect(rect);
-	snake->setColor(ccWHITE);
-	snake->setAnchorPoint(ccp(0,0));
-	snake->setPosition(ccp(origin.x+head.x*rect.size.width,origin.y+head.y*rect.size.height));
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(SnakeMap::moveForward),this,0.5,false);
-	this->addChild(snake,0);
-	m_lTex.push_front(snake);
+	Snake* snake = Snake::create();
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(SnakeMap::snakeMove),this,0.5,false);
+	this->addChild(snake,0,1);
+
 
 	AddFood();
-// 	CCSprite* food = CCSprite::createWithTexture(tex);
-// 	food->setTextureRect(rect);
-// 	food->setColor(ccWHITE);
-// 	food->setAnchorPoint(ccp(0,0));
-// 	food->setPosition(ccp(origin.x+m_iFood.x*rect.size.width,origin.y+m_iFood.y*rect.size.height));
-// 	this->addChild(food,0,2);
     return true;
 }
 
@@ -148,84 +130,19 @@ void SnakeMap::AddFood()
 	food->setPosition(ccp(origin.x+m_iFood.x*rect.size.width,origin.y+m_iFood.y*rect.size.height));
 }
 
-void SnakeMap::moveForward(float dt)
+void SnakeMap::snakeMove(float dt)
 {
-	CCPoint offset = ccp(0,0);
-	CCPoint head = m_lBody.front();
-	//检测是否出界
-	if(m_eDir == eDir_Up)
+	Snake* snake = dynamic_cast<Snake*>(this->getChildByTag(1));
+	if (snake)
 	{
-		if(head.y + 1 >= HEIGHT_NUM)
-			return;
-		offset.y = 1;
+		snake->Move();
 	}
-	else if(m_eDir == eDir_Down)
-	{
-		if(head.y - 1 < 0)
-			return;
-		offset.y = -1;
-	}
-	else if(m_eDir == eDir_Left)
-	{
-		if(head.x -1 < 0)
-			return;
-		offset.x = -1;
-	}
-	else if(m_eDir == eDir_Right)
-	{
-		if(head.x + 1 >= WIDTH_NUM)
-			return;
-		offset.x = 1;
-	}
-	CCPoint next = ccp(head.x+offset.x,head.y+offset.y);
-	//检测是否碰到自己
-	if(m_lBody.empty())
-		return;
-	std::list<CCPoint>::iterator it=m_lBody.begin();
-	//先自增it，排除待检测点就是head自己
-	for (++it;it!=m_lBody.end();it++)
-	{
-		if(next.x == (*it).x && next.y == (*it).y)
-			return;
-	}
-	//检测是否是个食物
-	CCSize size = this->getContentSize();
-	CCRect rect = CCRectMake(0,0,size.width/WIDTH_NUM,size.height/HEIGHT_NUM);
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	if(next.x == m_iFood.x && next.y == m_iFood.y)
-	{
-		m_lBody.push_front(next);
-		AddFood();
+}
 
-
-		
-		CCSprite* snake = CCSprite::createWithTexture(CCTextureCache::sharedTextureCache()->textureForKey("blank.png"));
-		snake->setTextureRect(rect);
-		snake->setColor(ccWHITE);
-		snake->setAnchorPoint(ccp(0,0));
-		snake->setPosition(ccp(origin.x+next.x*rect.size.width,origin.y+next.y*rect.size.height));
-		this->addChild(snake,0);
-		m_lTex.push_front(snake);
-	}
-	else
-	{
-		m_lBody.push_front(next);
-
-		m_bBlank[(int)next.x][(int)next.y] = false;
-		m_bBlank[(int)m_lBody.back().x][(int)m_lBody.back().y] = true;
-		CCSprite* snake = m_lTex.back();
-		snake->setPosition(ccp(origin.x+next.x*rect.size.width,origin.y+next.y*rect.size.height));
-		m_lTex.pop_back();
-		m_lTex.push_front(snake);
-
-		m_lBody.pop_back();
-	}
-
-// 	CCSprite* snake = dynamic_cast<CCSprite*>(this->getChildByTag(1));
-// 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-// 	CCSize size = this->getContentSize();
-// 	CCRect rect = CCRectMake(0,0,size.width/WIDTH_NUM,size.height/HEIGHT_NUM);
-// 	snake->setPosition(ccp(origin.x+next.x*rect.size.width,origin.y+next.y*rect.size.height));
+void SnakeMap::SetMapBlank(int x,int y,bool val)
+{
+	if(x >=0 && x < WIDTH_NUM && y >= 0 && y < HEIGHT_NUM)
+		m_bBlank[x][y] = val;
 }
 
 bool SnakeMap::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
