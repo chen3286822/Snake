@@ -23,6 +23,8 @@ bool TouchLayer::init()
 
 void TouchLayer::onExit()
 {
+	CCLayer::onExit();
+
 	this->setTouchEnabled(false);
 }
 

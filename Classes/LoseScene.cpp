@@ -1,4 +1,5 @@
 #include "LoseScene.h"
+#include "SnakeMapScene.h"
 
 
 CCScene* LoseLayer::scene()
@@ -18,7 +19,7 @@ CCScene* LoseLayer::scene()
 
 void LoseLayer::onExit()
 {
-
+	CCLayer::onExit();
 }
 
 // on "init" you need to initialize your instance
@@ -56,5 +57,7 @@ bool LoseLayer::init()
 
 void LoseLayer::menuRetryCallback(CCObject* pSender)
 {
-
+	CCScene* snakeScene = SnakeMap::scene();
+	CCTransitionScene * ts=CCTransitionFlipAngular::create(2,snakeScene);
+	CCDirector::sharedDirector()->replaceScene(ts);
 }

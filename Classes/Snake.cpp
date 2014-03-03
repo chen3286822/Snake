@@ -15,6 +15,8 @@ bool Snake::init()
 
 void Snake::onEnter()
 {
+	CCNode::onEnter();
+
 	m_iOrigin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	SnakeMap* mapLayer = dynamic_cast<SnakeMap*>(this->getParent());
@@ -43,6 +45,8 @@ void Snake::onEnter()
 
 void Snake::onExit()
 {
+	CCNode::onExit();
+
 	m_lpBody.clear();
 	m_lBodyPos.clear();
 }

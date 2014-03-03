@@ -21,6 +21,8 @@ CCScene* SnakeMap::scene()
 
 void SnakeMap::onExit()
 {
+	CCLayer::onExit();
+
 	CCUserDefault::sharedUserDefault()->setIntegerForKey("Score",m_nScore);
 	CCUserDefault::sharedUserDefault()->flush();
 }
@@ -146,6 +148,9 @@ void SnakeMap::AddFood()
 
 void SnakeMap::ChangeScene()
 {
+	//解除定时函数
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(SnakeMap::snakeMove),this);
+
 	CCScene* loseScene = LoseLayer::scene();
 	CCTransitionScene * ts=CCTransitionFlipAngular::create(2,loseScene);
 	CCDirector::sharedDirector()->replaceScene(ts);
