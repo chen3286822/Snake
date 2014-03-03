@@ -12,6 +12,22 @@ enum eDirection
 #define WIDTH_NUM 30
 #define HEIGHT_NUM 20
 
+enum eID
+{
+	eID_TouchLayer = 0,
+	eID_Snake = 1,
+	eID_Food = 2,
+	eID_Score = 3,
+};
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include <android/log.h>
+
+#define  LOG_TAG    "main"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#else
+#define  LOGD(...)
+#endif
 
 
 #endif

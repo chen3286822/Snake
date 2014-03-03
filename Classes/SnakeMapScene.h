@@ -10,6 +10,7 @@ USING_NS_CC;
 
 class SnakeMap : public CCLayer
 {
+	CC_SYNTHESIZE(int,m_nScore,Score)
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
@@ -25,11 +26,6 @@ public:
 	CCPoint& GetFoodPos(){return m_iFood;}
 	void AddFood();
 	void SetMapBlank(int x,int y,bool val);
-
-	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     
     // implement the "static node()" method manually
     CREATE_FUNC(SnakeMap);

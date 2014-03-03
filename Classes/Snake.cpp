@@ -3,9 +3,14 @@
 
 bool Snake::init()
 {
+	if ( !CCNode::init() )
+	{
+		return false;
+	}
 	m_lpBody.clear();
 	m_lBodyPos.clear();
 	m_eDir = eDir_Right;
+	return true;
 }
 
 void Snake::onEnter()
@@ -18,6 +23,10 @@ void Snake::onEnter()
 		m_iMapSize = mapLayer->getContentSize();
 		m_iBodyRect = CCRectMake(0,0,m_iMapSize.width/WIDTH_NUM,m_iMapSize.height/HEIGHT_NUM);
 
+		CCPoint head = ccp(WIDTH_NUM/2,HEIGHT_NUM/2);
+		m_lBodyPos.push_front(head);
+		mapLayer->SetMapBlank(head.x,head.y,false);
+
 		CCSprite* snake = CCSprite::createWithTexture(CCTextureCache::sharedTextureCache()->textureForKey("blank.png"));	
 		snake->setTextureRect(m_iBodyRect);
 		snake->setColor(ccWHITE);
@@ -25,10 +34,6 @@ void Snake::onEnter()
 		snake->setPosition(ccp(m_iOrigin.x+m_lBodyPos.front().x*m_iBodyRect.size.width,m_iOrigin.y+m_lBodyPos.front().y*m_iBodyRect.size.height));
 		this->addChild(snake);
 		m_lpBody.push_front(snake);
-
-		CCPoint head = ccp(WIDTH_NUM/2,HEIGHT_NUM/2);
-		m_lBodyPos.push_front(head);
-		mapLayer->SetMapBlank(head.x,head.y,false);
 	}
 	else
 	{
@@ -40,6 +45,14 @@ void Snake::onExit()
 {
 	m_lpBody.clear();
 	m_lBodyPos.clear();
+}
+
+void Snake::setDirection(eDirection dir)
+{
+	if((m_eDir==eDir_Up && dir==eDir_Down) || (m_eDir==eDir_Down && dir==eDir_Up) ||
+		(m_eDir==eDir_Right && dir==eDir_Left) || (m_eDir==eDir_Left && dir==eDir_Right))
+		return;
+	m_eDir = dir;
 }
 
 void Snake::Move()
@@ -99,6 +112,16 @@ void Snake::Move()
 		snake->setPosition(ccp(m_iOrigin.x+next.x*m_iBodyRect.size.width,m_iOrigin.y+next.y*m_iBodyRect.size.height));
 		this->addChild(snake,0);
 		m_lpBody.push_front(snake);
+
+		//¼Ó·Ö
+		mapLayer->setScore(mapLayer->getScore()+1);
+		CCLabelTTF* label = dynamic_cast<CCLabelTTF*>(this->getParent()->getChildByTag(eID_Score));
+		if(label)
+		{
+			char score[256];
+			sprintf(score,"Score : %d",mapLayer->getScore());
+			label->setString(score);
+		}
 	}
 	else
 	{
