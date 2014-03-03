@@ -55,7 +55,7 @@ void Snake::setDirection(eDirection dir)
 	m_eDir = dir;
 }
 
-void Snake::Move()
+bool Snake::Move()
 {
 	CCPoint offset = ccp(0,0);
 	CCPoint head = m_lBodyPos.front();
@@ -63,42 +63,42 @@ void Snake::Move()
 	if(m_eDir == eDir_Up)
 	{
 		if(head.y + 1 >= HEIGHT_NUM)
-			return;
+			return false;
 		offset.y = 1;
 	}
 	else if(m_eDir == eDir_Down)
 	{
 		if(head.y - 1 < 0)
-			return;
+			return false;
 		offset.y = -1;
 	}
 	else if(m_eDir == eDir_Left)
 	{
 		if(head.x -1 < 0)
-			return;
+			return false;
 		offset.x = -1;
 	}
 	else if(m_eDir == eDir_Right)
 	{
 		if(head.x + 1 >= WIDTH_NUM)
-			return;
+			return false;
 		offset.x = 1;
 	}
 	CCPoint next = ccp(head.x+offset.x,head.y+offset.y);
 	//检测是否碰到自己
 	if(m_lBodyPos.empty())
-		return;
+		return false;
 	std::list<CCPoint>::iterator it=m_lBodyPos.begin();
 	//先自增it，排除待检测点就是head自己
 	for (++it;it!=m_lBodyPos.end();it++)
 	{
 		if(next.x == (*it).x && next.y == (*it).y)
-			return;
+			return false;
 	}
 	//检测是否是个食物
 	SnakeMap* mapLayer = dynamic_cast<SnakeMap*>(this->getParent());
 	if(!mapLayer)
-		return;
+		return false;
 	CCPoint& food = mapLayer->GetFoodPos();
 	if(next.x == food.x && next.y == food.y)
 	{
@@ -137,4 +137,5 @@ void Snake::Move()
 		m_lpBody.push_front(snake);
 		m_lBodyPos.pop_back();
 	}
+	return true;
 }

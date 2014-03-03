@@ -17,7 +17,7 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-	void Move();
+	bool Move();
 	int GetBodyLength(){return m_lpBody.size();}
 	void setDirection(eDirection dir);
 

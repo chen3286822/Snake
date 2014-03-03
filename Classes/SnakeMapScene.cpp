@@ -1,6 +1,7 @@
 #include "SnakeMapScene.h"
 #include "TouchLayer.h"
 #include "Snake.h"
+#include "LoseScene.h"
 
 
 CCScene* SnakeMap::scene()
@@ -143,12 +144,23 @@ void SnakeMap::AddFood()
 	food->setPosition(ccp(origin.x+m_iFood.x*rect.size.width,origin.y+m_iFood.y*rect.size.height));
 }
 
+void SnakeMap::ChangeScene()
+{
+	CCScene* loseScene = LoseLayer::scene();
+	CCTransitionScene * ts=CCTransitionFlipAngular::create(2,loseScene);
+	CCDirector::sharedDirector()->replaceScene(ts);
+}
+
 void SnakeMap::snakeMove(float dt)
 {
 	Snake* snake = dynamic_cast<Snake*>(this->getChildByTag(eID_Snake));
 	if (snake)
 	{
-		snake->Move();
+		if(snake->Move() == false)
+		{
+			//ÇÐ»»µ½Ê§°Ü³¡¾°
+			ChangeScene();
+		}
 	}
 }
 

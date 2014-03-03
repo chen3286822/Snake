@@ -26,6 +26,9 @@ public:
 	CCPoint& GetFoodPos(){return m_iFood;}
 	void AddFood();
 	void SetMapBlank(int x,int y,bool val);
+
+	//ÇÐ»»³¡¾°
+	void ChangeScene();
     
     // implement the "static node()" method manually
     CREATE_FUNC(SnakeMap);
