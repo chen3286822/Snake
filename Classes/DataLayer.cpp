@@ -1,4 +1,5 @@
 #include "DataLayer.h"
+#include "UserData.h"
 
 
 
@@ -6,8 +7,7 @@ void DataLayer::onExit()
 {
 	CCLayer::onExit();
 
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("Score",m_nScore);
-	CCUserDefault::sharedUserDefault()->flush();
+	UserData::sharedUserData()->WriteData();
 }
 
 // on "init" you need to initialize your instance
@@ -23,12 +23,9 @@ bool DataLayer::init()
 	//设定地图层大小位置
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	CCSize controlSize = CCSizeMake(size.width,size.height-DATA_HEIGHT);
+	CCSize controlSize = CCSizeMake(size.width,DATA_HEIGHT);
 	this->setContentSize(controlSize);
-	this->setPosition(0,DATA_HEIGHT);
 	
-	//分数初始化
-	m_nScore = CCUserDefault::sharedUserDefault()->getIntegerForKey("Score",0);
 
 	srand((unsigned int)time(NULL));
 
@@ -61,11 +58,11 @@ bool DataLayer::init()
     // create and initialize a label
     
 	char score[256];
-	sprintf(score,"Score : %d",m_nScore);
+	sprintf(score,"Score : %d",UserData::sharedUserData()->getScore());
     CCLabelTTF* pLabel = CCLabelTTF::create(score, "Arial", 24);
     
     // position the label on the center of the screen
-    pLabel->setPosition(ccp(origin.x + controlSize.width/2,
+    pLabel->setPosition(ccp(origin.x + controlSize.width/4,
                             origin.y + controlSize.height - pLabel->getContentSize().height));
 
     // add the label as a child to this layer

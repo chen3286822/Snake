@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "SnakeMapScene.h"
+#include "DataLayer.h"
 
 USING_NS_CC;
 

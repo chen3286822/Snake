@@ -10,7 +10,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/SnakeMapScene.cpp \
                    ../../Classes/TouchLayer.cpp \
-                   ../../Classes/Snake.cpp
+                   ../../Classes/Snake.cpp \
+                   ../../Classes/UserData.cpp \
+                   ../../Classes/LoseScene.cpp \
+                   ../../Classes/DataLayer.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

@@ -7,54 +7,66 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Heads">
+      <UniqueIdentifier>{54461c6c-68e8-43c5-82ab-abf165000e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Sources">
+      <UniqueIdentifier>{82c67986-f680-4f66-bb41-aa905e6759f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SnakeMapScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Snake.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\TouchLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LoseScene.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\DataLayer.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoseScene.cpp">
+      <Filter>Classes\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Snake.cpp">
+      <Filter>Classes\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SnakeMapScene.cpp">
+      <Filter>Classes\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UserData.cpp">
+      <Filter>Classes\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SnakeMapScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Snake.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Unity.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Heads</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\TouchLayer.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Heads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SnakeMapScene.h">
+      <Filter>Classes\Heads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Snake.h">
+      <Filter>Classes\Heads</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LoseScene.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Heads</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\DataLayer.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Heads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes\Heads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UserData.h">
+      <Filter>Classes\Heads</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

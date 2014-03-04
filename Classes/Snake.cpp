@@ -1,5 +1,6 @@
 #include "Snake.h"
 #include "SnakeMapScene.h"
+#include "UserData.h"
 
 bool Snake::init()
 {
@@ -118,13 +119,21 @@ bool Snake::Move()
 		m_lpBody.push_front(snake);
 
 		//¼Ó·Ö
-		mapLayer->setScore(mapLayer->getScore()+1);
-		CCLabelTTF* label = dynamic_cast<CCLabelTTF*>(this->getParent()->getChildByTag(eID_Score));
-		if(label)
+		UserData::sharedUserData()->setScore(UserData::sharedUserData()->getScore()+1);
+		CCNode* scene = mapLayer->getParent();
+		if(scene)
 		{
-			char score[256];
-			sprintf(score,"Score : %d",mapLayer->getScore());
-			label->setString(score);
+			CCNode* dataLayer = scene->getChildByTag(eID_DataLayer);
+			if(dataLayer)
+			{
+				CCLabelTTF* label = dynamic_cast<CCLabelTTF*>(dataLayer->getChildByTag(eID_Score));
+				if(label)
+				{
+					char score[256];
+					sprintf(score,"Score : %d",UserData::sharedUserData()->getScore());
+					label->setString(score);
+				}
+			}
 		}
 	}
 	else

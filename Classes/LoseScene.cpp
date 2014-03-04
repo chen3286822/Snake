@@ -1,5 +1,6 @@
 #include "LoseScene.h"
 #include "SnakeMapScene.h"
+#include "DataLayer.h"
 
 
 CCScene* LoseLayer::scene()
@@ -15,6 +16,18 @@ CCScene* LoseLayer::scene()
 
     // return the scene
     return scene;
+}
+
+void LoseLayer::onEnter()
+{
+	CCLayer::onEnter();
+
+	CCLayer* dataLayer = DataLayer::create();
+	CCNode* scene = this->getParent();
+	if (scene)
+	{
+		scene->addChild(dataLayer,0,eID_DataLayer);
+	}
 }
 
 void LoseLayer::onExit()

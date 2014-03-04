@@ -137,6 +137,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Snake.cpp" />
     <ClCompile Include="..\Classes\SnakeMapScene.cpp" />
     <ClCompile Include="..\Classes\TouchLayer.cpp" />
+    <ClCompile Include="..\Classes\UserData.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\SnakeMapScene.h" />
     <ClInclude Include="..\Classes\TouchLayer.h" />
     <ClInclude Include="..\Classes\Unity.h" />
+    <ClInclude Include="..\Classes\UserData.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

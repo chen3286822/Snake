@@ -19,6 +19,8 @@ enum eID
 	eID_Snake = 1,
 	eID_Food = 2,
 	eID_Score = 3,
+	eID_SnakeMap = 4,
+	eID_DataLayer = 5,
 };
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
