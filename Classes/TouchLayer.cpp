@@ -17,6 +17,17 @@ bool TouchLayer::init()
 		this->setTouchEnabled(true);
 		// success
 		bRet = true;
+
+		//test
+// 		CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+// 		CCSize size = CCDirector::sharedDirector()->getWinSize();
+// 		CCSize controlSize = CCSizeMake(size.width,size.height-50);
+// 		this->setContentSize(controlSize);
+// 		CCSprite* backgroud = CCSprite::create("blue.png");
+// 		CCRect rect = CCRectMake(0,0,controlSize.width,controlSize.height);
+// 		backgroud->setTextureRect(rect);
+// 		backgroud->setAnchorPoint(ccp(0,0));
+// 		this->addChild(backgroud);
 	} while(0);
 	return bRet;
 }
@@ -30,14 +41,18 @@ void TouchLayer::onExit()
 
 bool TouchLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
+	CCPoint location = pTouch->getLocation();
+	if(location.y >=0 && location.y < DATA_HEIGHT)
+		return false;
+
 	Snake* snake = dynamic_cast<Snake*>(this->getParent()->getChildByTag(eID_Snake));
 	if(!snake)
 		return false;
 
-	CCPoint location = pTouch->getLocation();
+
 	CCSize size = this->getContentSize();
-	float y1 = -1*size.height/size.width*location.x+size.height;
-	float y2 = size.height/size.width*location.x;
+	float y1 = -1*(size.height-DATA_HEIGHT)/size.width*location.x+size.height;
+	float y2 = (size.height-DATA_HEIGHT)/size.width*location.x + DATA_HEIGHT;
 
 	eDirection dir;
 	if(location.y < y1 && location.y < y2)

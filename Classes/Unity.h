@@ -11,6 +11,7 @@ enum eDirection
 
 #define WIDTH_NUM 30
 #define HEIGHT_NUM 20
+#define DATA_HEIGHT 50
 
 enum eID
 {

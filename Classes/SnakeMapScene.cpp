@@ -12,6 +12,8 @@ CCScene* SnakeMap::scene()
     // 'layer' is an autorelease object
     SnakeMap *layer = SnakeMap::create();
 
+
+
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -36,6 +38,13 @@ bool SnakeMap::init()
     {
         return false;
     }
+
+	//设定地图层大小位置
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	CCSize controlSize = CCSizeMake(size.width,size.height-DATA_HEIGHT);
+	this->setContentSize(controlSize);
+	this->setPosition(0,DATA_HEIGHT);
 	
 	//分数初始化
 	m_nScore = CCUserDefault::sharedUserDefault()->getIntegerForKey("Score",0);
@@ -43,8 +52,7 @@ bool SnakeMap::init()
 	srand((unsigned int)time(NULL));
 
     
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -57,7 +65,7 @@ bool SnakeMap::init()
                                         this,
                                         menu_selector(SnakeMap::menuCloseCallback));
     
-	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
+	pCloseItem->setPosition(ccp(origin.x + controlSize.width - pCloseItem->getContentSize().width/2 ,
                                 origin.y + pCloseItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
@@ -76,8 +84,8 @@ bool SnakeMap::init()
     CCLabelTTF* pLabel = CCLabelTTF::create(score, "Arial", 24);
     
     // position the label on the center of the screen
-    pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - pLabel->getContentSize().height));
+    pLabel->setPosition(ccp(origin.x + controlSize.width/2,
+                            origin.y + controlSize.height - pLabel->getContentSize().height));
 
     // add the label as a child to this layer
     this->addChild(pLabel, 0,eID_Score);
@@ -103,9 +111,12 @@ bool SnakeMap::init()
 
 	AddFood();
 
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(SnakeMap::snakeMove),this,0.25,false);
-
     return true;
+}
+
+void SnakeMap::onEnterTransitionDidFinish()
+{
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(SnakeMap::snakeMove),this,0.25,false);
 }
 
 void SnakeMap::AddFood()
